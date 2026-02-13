@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Will You Be My Valentine?">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Comic+Neue:wght@400;700&family=Allura&family=Satisfy&family=Great+Vibes&display=swap');
+
+```
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Comic Neue', cursive;
+        background: linear-gradient(135deg, #ffc3d4 0%, #ffb3c6 50%, #ffa3ba 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .heart-float {
+        position: fixed;
+        font-size: 2em;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 1;
+        animation: floatAround 15s infinite ease-in-out;
+    }
+
+    @keyframes floatAround {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate(30px, -40px) rotate(90deg);
+        }
+        50% {
+            transform: translate(-20px, 20px) rotate(180deg);
+        }
+        75% {
+            transform: translate(40px, 10px) rotate(270deg);
+        }
+        100% {
+            transform: translate(0, 0) rotate(360deg);
+        }
+    }
+
+    .peony-sticker {
+        position: absolute;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .peony-sticker.top-left {
+        top: 20px;
+        left: 20px;
+    }
+
+    .peony-sticker.top-right {
+        top: 20px;
+        right: 20px;
+    }
+
+    .peony-sticker.bottom-left {
+        bottom: 20px;
+        left: 20px;
+    }
+
+    .peony-sticker.bottom-right {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .opening-screen {
+        display: block;
+        animation: fadeIn 0.4s ease-in;
+    }
+
+    .song-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.4s ease-in;
+    }
+
+    .song-screen.active {
+        display: block;
+    }
+
+    .music-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.4s ease-in;
+    }
+
+    .music-screen.active {
+        display: block;
+    }
+
+    .question-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        overflow: auto;
+        max-height: 85vh;
+        position: relative;
+    }
+
+    .question-screen.active {
+        display: block;
+        animation: paperUnfold 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .success-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        overflow: auto;
+        max-height: 90vh;
+        position: relative;
+    }
+
+    .success-screen.active {
+        display: block;
+        animation: popIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    }
+
+    .opening-screen h1 {
+        font-size: 3em;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 700;
+        line-height: 1.2;
+        font-family: 'Allura', cursive;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .opening-text {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .opening-title {
+        font-size: 3em;
+        color: #666;
+        margin-bottom: 15px;
+        font-weight: 400;
+        font-family: 'Great Vibes', cursive;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .opening-subtitle {
+        font-size: 1.3em;
+        color: #888;
+        margin-bottom: 30px;
+        font-weight: 400;
+        font-family: 'Great Vibes', cursive;
+        letter-spacing: 1px;
+    }
+
+    .opening-envelope {
+        width: 300px;
+        height: 200px;
+        margin: 0 auto 30px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        display: block;
+    }
+
+    .opening-envelope:hover {
+        transform: scale(1.05);
+    }
+
+    .opening-envelope.shake {
+        animation: shake 0.5s cubic-bezier(0.36, 0, 0.66, -0.56);
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0) rotate(0deg); }
+        10% { transform: translateX(-8px) rotate(-2deg); }
+        20% { transform: translateX(8px) rotate(2deg); }
+        30% { transform: translateX(-8px) rotate(-2deg); }
+        40% { transform: translateX(8px) rotate(2deg); }
+        50% { transform: translateX(-8px) rotate(-2deg); }
+        60% { transform: translateX(8px) rotate(2deg); }
+        70% { transform: translateX(-8px) rotate(-2deg); }
+        80% { transform: translateX(8px) rotate(2deg); }
+        90% { transform: translateX(-8px) rotate(-2deg); }
+    }
+
+    .opening-envelope svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+    }
+
+    .opening-subtitle {
+        font-size: 1.2em;
+        color: #666;
+        margin-bottom: 30px;
+        font-weight: 400;
+        font-family: 'Satisfy', cursive;
+        letter-spacing: 0.5px;
+    }
+
+    .tap-hint {
+        font-size: 1em;
+        color: #999;
+        font-style: italic;
+        text-align: center;
+        margin-top: 20px;
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.2em;
+    }
+
+    .question-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .question-screen.active {
+        display: block;
+        animation: paperUnfold 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes paperUnfold {
+        0% {
+            transform: scale(0.1) rotateX(90deg) rotateY(45deg);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05) rotateX(0deg) rotateY(0deg);
+        }
+        100% {
+            transform: scale(1) rotateX(0deg) rotateY(0deg);
+            opacity: 1;
+        }
+    }
+
+    .question-screen.active {
+        display: block;
+    }
+
+    .question-screen h1 {
+        font-size: 2.8em;
+        color: #333;
+        margin-bottom: 30px;
+        font-family: 'Courier New', monospace;
+        font-weight: 900;
+        line-height: 1.3;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        letter-spacing: 2px;
+    }
+
+    .cat-image {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 30px;
+        background: transparent;
+        border: none;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4em;
+    }
+
+    .cat-label {
+        font-size: 1.1em;
+        color: #333;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-weight: 900;
+        font-family: 'Comic Neue', sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .attempt-counter {
+        font-size: 0.9em;
+        color: #999;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    button {
+        padding: 12px 35px;
+        font-size: 1.1em;
+        border: 4px solid #333;
+        border-radius: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Comic Neue', cursive;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .yes-btn {
+        background: #4CAF50;
+        color: white;
+    }
+
+    .yes-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .no-btn {
+        background: #ff6b6b;
+        color: white;
+    }
+
+    .no-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .success-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        overflow: auto;
+        max-height: 90vh;
+        position: relative;
+    }
+
+    .success-screen.active {
+        display: block;
+        animation: popIn 0.6s ease;
+    }
+
+    .success-screen .heart-float {
+        opacity: 0.05 !important;
+    }
+
+    @keyframes popIn {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .envelope-container {
+        margin: 40px auto;
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .sealed-envelope {
+        transition: all 0.4s ease;
+        margin-bottom: 20px;
+    }
+
+    .sealed-envelope:hover {
+        transform: scale(1.05);
+    }
+
+    .sealed-envelope.hidden {
+        display: none;
+    }
+
+    .message-display {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 40px 30px;
+        border-radius: 15px;
+        border: 4px solid #333;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-bottom: 20px;
+    }
+
+    .message-display.hidden {
+        display: none;
+    }
+
+    @keyframes slideIn {
+        0% {
+            transform: scale(0.8) rotateX(-20deg);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1) rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    .message-content h2 {
+        color: #ff1493;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+        font-weight: 400;
+        font-family: 'Great Vibes', cursive;
+    }
+
+    .message-content p {
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 15px;
+        text-align: left;
+        font-size: 1em;
+        font-weight: 400;
+        font-family: 'Satisfy', cursive;
+    }
+
+    .signature {
+        text-align: right;
+        margin-top: 30px;
+        color: #ff1493;
+        font-weight: 400;
+        font-size: 1.3em;
+        font-family: 'Great Vibes', cursive;
+    }
+
+    .hint-text {
+        color: #999;
+        font-style: italic;
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.1em;
+        margin-top: 10px;
+    }
+
+    .hint-text.hidden {
+        display: none;
+    }
+
+    .letter h2 {
+        color: #ff1493;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        font-weight: 400;
+        font-family: 'Great Vibes', cursive;
+    }
+
+    .letter p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 12px;
+        text-align: left;
+        font-size: 0.95em;
+        font-weight: 400;
+        font-family: 'Satisfy', cursive;
+    }
+
+    .signature {
+        text-align: right;
+        margin-top: 25px;
+        color: #ff1493;
+        font-weight: 400;
+        font-size: 1.3em;
+        font-family: 'Great Vibes', cursive;
+    }
+
+    .letter-hint {
+        text-align: center;
+        color: #999;
+        font-style: italic;
+        margin-top: 20px;
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.1em;
+    }
+        font-weight: 400;
+        font-family: 'Great Vibes', cursive;
+    }
+
+    .letter p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 12px;
+        text-align: left;
+        font-size: 1em;
+        font-weight: 500;
+    }
+
+    .signature {
+        text-align: right;
+        margin-top: 25px;
+        color: #ff1493;
+        font-weight: 400;
+        font-size: 1.3em;
+        font-family: 'Great Vibes', cursive;
+    }
+
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeIn 0.2s ease;
+        opacity: 1;
+        transition: opacity 0.2s ease;
+    }
+
+    .popup-overlay.hidden {
+        display: none !important;
+    }
+
+    @keyframes fadeInOverlay {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .popup-card {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 50px 40px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3), 8px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 450px;
+        width: 90%;
+        animation: popInCard 0.5s ease;
+    }
+
+    @keyframes popInCard {
+        0% {
+            transform: scale(0.7);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .popup-image {
+        font-size: 6em;
+        margin-bottom: 20px;
+        animation: bounceEmoji 2s infinite;
+    }
+
+    @keyframes bounceEmoji {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .popup-card h2 {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 15px;
+        font-family: 'Satisfy', cursive;
+        font-weight: 700;
+        line-height: 1.3;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .popup-card p {
+        font-size: 1.2em;
+        color: #666;
+        margin-bottom: 30px;
+        font-family: 'Satisfy', cursive;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .proceed-btn {
+        padding: 15px 50px;
+        font-size: 1.3em;
+        border: 4px solid #333;
+        border-radius: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Comic Neue', cursive;
+        background: #4CAF50;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .proceed-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .proceed-btn:active {
+        transform: scale(0.95);
+    }
+
+    .dare-text {
+        font-size: 0.95em;
+        color: #666;
+        margin-top: 20px;
+        font-family: 'Courier New', monospace;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+    }
+
+    /* Music Screen */
+    .music-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.6s ease;
+    }
+
+    .music-screen.active {
+        display: block;
+    }
+
+    .music-title {
+        font-size: 2.5em;
+        color: #333;
+        margin-bottom: 10px;
+        font-family: 'Courier New', monospace;
+        font-weight: 900;
+        letter-spacing: 2px;
+    }
+
+    .music-artist {
+        font-size: 1.1em;
+        color: #666;
+        margin-bottom: 30px;
+        font-family: 'Comic Neue', cursive;
+    }
+
+    .music-video {
+        margin-bottom: 30px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .music-video svg {
+        width: 100%;
+        height: auto;
+        max-width: 350px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .music-player-container {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .music-controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .play-control-btn, .pause-control-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Comic Neue', cursive;
+        transition: all 0.3s ease;
+        font-size: 1em;
+    }
+
+    .play-control-btn:hover, .pause-control-btn:hover {
+        background: #c0392b;
+        transform: scale(1.05);
+    }
+
+    .play-control-btn:active, .pause-control-btn:active {
+        transform: scale(0.95);
+    }
+
+    .music-progress {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+    }
+
+    #progressBar {
+        -webkit-appearance: slider-horizontal;
+        appearance: slider-horizontal;
+        height: 6px;
+        border-radius: 3px;
+        background: #555;
+        outline: none;
+        cursor: pointer;
+    }
+
+    #progressBar::-webkit-slider-thumb {
+        -webkit-appearance: slider-thumb;
+        appearance: slider-thumb;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #e74c3c;
+        cursor: pointer;
+    }
+
+    #progressBar::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #e74c3c;
+        cursor: pointer;
+        border: none;
+    }
+
+    .music-info {
+        background: #2c3e50;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .video-title {
+        font-size: 1.1em;
+        color: white;
+        margin: 5px 0;
+        font-family: 'Comic Neue', cursive;
+        font-weight: 700;
+    }
+
+    .channel-name {
+        font-size: 1em;
+        color: #bdc3c7;
+        margin: 0;
+        font-family: 'Comic Neue', cursive;
+    }
+
+    .music-message {
+        font-size: 1.2em;
+        color: #555;
+        font-style: italic;
+        line-height: 1.8;
+        font-family: 'Great Vibes', cursive;
+        margin: 30px 0;
+    }
+
+    .next-btn {
+        background: #8B4560;
+        color: white;
+        padding: 15px 50px;
+        font-size: 1.2em;
+        border: 4px solid #333;
+        border-radius: 25px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Comic Neue', cursive;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .next-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(139, 69, 96, 0.4);
+    }
+
+    .next-btn:active {
+        transform: scale(0.95);
+    }
+
+    .confetti {
+        position: fixed;
+        width: 15px;
+        height: 15px;
+        z-index: 9998;
+        pointer-events: none;
+    }
+
+    @keyframes confettiFall {
+        to {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .opening-screen h1,
+        .question-screen h1 {
+            font-size: 2em;
+        }
+
+        button {
+            font-size: 1.1em;
+            padding: 12px 30px;
+        }
+
+        .buttons {
+            flex-direction: column;
+        }
+
+        button {
+            width: 100%;
+        }
+    }
+
+    /* Memories Slideshow */
+    .memories-screen {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 35px;
+        border-radius: 25px;
+        border: 5px solid #333;
+        text-align: center;
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.4s ease-in;
+        overflow: auto;
+        max-height: 90vh;
+    }
+
+    .memories-screen.active {
+        display: block;
+    }
+
+    .slideshow-container {
+        position: relative;
+        max-width: 500px;
+        margin: 40px auto;
+        background-color: white;
+        border-radius: 15px;
+        border: 4px solid #333;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .slide {
+        display: none;
+        text-align: center;
+        animation: fadeIn 0.4s ease-in;
+    }
+
+    .slide.active {
+        display: block;
+    }
+
+    .slide img {
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .slide-caption {
+        padding: 20px;
+        background: linear-gradient(to bottom, rgba(255, 212, 229, 0.3), rgba(255, 212, 229, 0.1));
+        color: #555;
+        font-size: 1.1em;
+        font-family: 'Satisfy', cursive;
+        margin: 0;
+    }
+
+    .prev, .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 20, 147, 0.7);
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .prev:hover, .next:hover {
+        background-color: rgba(255, 20, 147, 1);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev {
+        left: 15px;
+    }
+
+    .next {
+        right: 15px;
+    }
+
+    .slide-indicators {
+        text-align: center;
+        padding: 20px;
+        background: white;
+    }
+
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 8px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        border: 2px solid #333;
+    }
+
+    .dot.active {
+        background-color: #ff1493;
+    }
+
+    .dot:hover {
+        background-color: #ff69b4;
+    }
+
+    .next-memory-btn {
+        margin-top: 30px;
+        background: #ff1493;
+        color: white;
+        padding: 15px 40px;
+        font-size: 1.1em;
+        border: 3px solid #333;
+        border-radius: 25px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Comic Neue', cursive;
+        transition: all 0.3s ease;
+    }
+
+    .next-memory-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+    }
+
+    .next-memory-btn:active {
+        transform: scale(0.95);
+    }
+
+    .memories-hint {
+        color: #999;
+        font-style: italic;
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.1em;
+        margin-top: 10px;
+    }
+
+    /* Quiz Popup */
+    .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .quiz-btn {
+        background: #ff1493;
+        color: white;
+        border: 3px solid #333;
+        padding: 12px 20px;
+        border-radius: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Comic Neue', cursive;
+        font-size: 1em;
+        transition: all 0.3s ease;
+    }
+
+    .quiz-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+    }
+
+    .quiz-btn:active {
+        transform: scale(0.95);
+    }
+
+    .quiz-result {
+        margin-top: 20px;
+        font-size: 1.1em;
+        font-family: 'Satisfy', cursive;
+        color: #555;
+        min-height: 30px;
+    }
+
+    .quiz-result.hidden {
+        display: none;
+    }
+
+    .quiz-result.correct {
+        color: #4CAF50;
+        font-weight: bold;
+    }
+
+    .quiz-result.wrong {
+        color: #ff1493;
+        font-weight: bold;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="heart-float" style="top: 10%; left: 5%; animation-delay: 0s;">💕</div>
+    <div class="heart-float" style="top: 20%; right: 10%; animation-delay: 2s;">💖</div>
+    <div class="heart-float" style="top: 30%; left: 15%; animation-delay: 4s;">💕</div>
+    <div class="heart-float" style="top: 40%; right: 20%; animation-delay: 6s;">💗</div>
+    <div class="heart-float" style="top: 50%; left: 10%; animation-delay: 8s;">💕</div>
+    <div class="heart-float" style="top: 60%; right: 15%; animation-delay: 10s;">💖</div>
+    <div class="heart-float" style="top: 70%; left: 20%; animation-delay: 12s;">💕</div>
+    <div class="heart-float" style="top: 80%; right: 25%; animation-delay: 14s;">💗</div>
+
+```
+<div class="container">
+    <div class="opening-text">
+        <h1 class="opening-title">Hi, My baby</h1>
+        <p class="opening-subtitle">I have something special for you...</p>
+        
+        <!-- Aesthetic Line Doodles -->
+        <svg class="peony-sticker top-left" viewBox="0 0 100 100" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+            <!-- Decorative lines -->
+            <path d="M 10 20 Q 20 10, 30 20" stroke="#ff1493" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 15 35 L 25 35" stroke="#ff1493" stroke-width="1" fill="none"/>
+            <line x1="5" y1="50" x2="35" y2="50" stroke="#ff1493" stroke-width="1" opacity="0.6"/>
+            <circle cx="20" cy="70" r="2" fill="#ff1493"/>
+            <circle cx="28" cy="75" r="2" fill="#ff1493" opacity="0.6"/>
+        </svg>
+
+        <svg class="peony-sticker bottom-right" viewBox="0 0 100 100" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+            <!-- Decorative lines -->
+            <path d="M 70 10 Q 80 15, 75 30" stroke="#ff1493" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 60 40 Q 70 45, 80 40" stroke="#ff1493" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <line x1="65" y1="55" x2="85" y2="55" stroke="#ff1493" stroke-width="1" fill="none"/>
+            <circle cx="70" cy="70" r="2" fill="#ff1493"/>
+            <circle cx="80" cy="75" r="1.5" fill="#ff1493" opacity="0.6"/>
+            <circle cx="75" cy="85" r="2" fill="#ff1493" opacity="0.5"/>
+        </svg>
+    </div>
+
+    <div class="opening-envelope" id="openingScreen">
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Envelope body -->
+            <rect x="20" y="40" width="260" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+            
+            <!-- Envelope flap left -->
+            <line x1="20" y1="40" x2="150" y2="110" stroke="black" stroke-width="3"/>
+            
+            <!-- Envelope flap right -->
+            <line x1="280" y1="40" x2="150" y2="110" stroke="black" stroke-width="3"/>
+            
+            <!-- Heart in middle -->
+            <path d="M150 95 L160 85 Q170 75 180 85 Q185 95 180 105 L150 125 L120 105 Q115 95 120 85 Q130 75 140 85 Z" 
+                  fill="#ff1493" stroke="#c71585" stroke-width="1"/>
+        </svg>
+    </div>
+
+    <p class="tap-hint">Tap the envelope to continue</p>
+
+    <div class="popup-overlay hidden" id="introPopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">💕</div>
+            <h2>Before we continue...</h2>
+            <p style="font-size: 1.1em; color: #555; font-family: 'Satisfy', cursive; margin: 20px 0;">There's a song that reminds me of you. Can you guess which one?</p>
+            <button class="proceed-btn" id="introBtn">Let's Go! 🎵</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="quizPopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">🎵</div>
+            <h2>What's the song that reminds me of you?</h2>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkQuizAnswer('Transform', true)">Transform</button>
+                <button class="quiz-btn" onclick="checkQuizAnswer('Kalapastangan', false)">Kalapastangan</button>
+                <button class="quiz-btn" onclick="checkQuizAnswer('Passenger Seat', false)">Passenger Seat</button>
+                <button class="quiz-btn" onclick="checkQuizAnswer('Just The Way You Are', false)">Just The Way You Are</button>
+            </div>
+            <p class="quiz-result hidden" id="quizResult"></p>
+        </div>
+    </div>
+
+    <div class="music-screen hidden" id="musicScreen">
+        <h2 class="music-title">Transform</h2>
+        <p class="music-artist">Song by Daniel Caesar • 2017</p>
+        
+        <div class="music-player-container">
+            <audio id="audioPlayer" style="width: 100%; margin-bottom: 20px;">
+                <source src="transform.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+            <div class="music-controls">
+                <button id="playBtn" class="play-control-btn">Play</button>
+                <button id="pauseBtn" class="pause-control-btn">Pause</button>
+            </div>
+
+            <div class="music-progress">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="progressBar" min="0" value="0" style="flex: 1; margin: 0 10px;">
+                <span id="duration">4:41</span>
+            </div>
+        </div>
+
+        <div class="music-info">
+            <p class="video-title">Daniel Caesar - Transform (feat. Charlott...</p>
+            <p class="channel-name">🔴 Daniel Caesar - Topic</p>
+        </div>
+
+        <p class="music-message">This song reminds me of you...</p>
+
+        <button class="next-btn" id="musicNextBtn">Next →</button>
+    </div>
+
+    <div class="question-screen" id="questionScreen">
+        <h1>Belle, WILL<br>YOU BE MY<br>VALENTINE?</h1>
+        
+        <p class="attempt-counter" id="attemptCounter"></p>
+
+        <div class="buttons">
+            <button class="yes-btn" id="yesButton">Yes</button>
+            <button class="no-btn" id="noButton">No</button>
+        </div>
+        <p class="dare-text">Try clicking No... if u dare</p>
+
+        <!-- Peony Stickers -->
+        <svg class="peony-sticker top-left" viewBox="0 0 100 100" width="70" height="70" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(50, 50)">
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(0)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(45)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(90)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(135)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(180)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(225)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(270)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(315)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(22.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(67.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(112.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(157.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(202.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(247.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(292.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(337.5)"/>
+                <circle cx="0" cy="0" r="8" fill="#FFE4F0"/>
+                <circle cx="0" cy="0" r="5" fill="#FFD4E5"/>
+            </g>
+        </svg>
+
+        <svg class="peony-sticker top-right" viewBox="0 0 100 100" width="70" height="70" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(50, 50)">
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(0)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(45)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(90)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(135)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(180)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(225)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(270)"/>
+                <ellipse cx="0" cy="-20" rx="12" ry="18" fill="#FFB6D9" transform="rotate(315)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(22.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(67.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(112.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(157.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(202.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(247.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(292.5)"/>
+                <ellipse cx="0" cy="-14" rx="10" ry="15" fill="#FF9FCF" transform="rotate(337.5)"/>
+                <circle cx="0" cy="0" r="8" fill="#FFE4F0"/>
+                <circle cx="0" cy="0" r="5" fill="#FFD4E5"/>
+            </g>
+        </svg>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <h1 style="color: #ff1493; font-size: 2.5em; font-family: 'Great Vibes', cursive; font-weight: 400;">Something Special for You 💕</h1>
+        
+        <div class="envelope-container" id="envelope">
+            <!-- Sealed Envelope -->
+            <div class="sealed-envelope">
+                <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" width="280" height="180">
+                    <!-- Envelope body -->
+                    <rect x="20" y="80" width="260" height="100" fill="white" stroke="black" stroke-width="3" rx="8"/>
+                    
+                    <!-- Envelope flaps -->
+                    <line x1="20" y1="80" x2="150" y2="130" stroke="black" stroke-width="3"/>
+                    <line x1="280" y1="80" x2="150" y2="130" stroke="black" stroke-width="3"/>
+                    
+                    <!-- Heart in middle -->
+                    <path d="M150 110 L162 98 Q175 85 188 98 Q195 110 188 120 L150 145 L112 120 Q105 110 112 98 Q125 85 138 98 Z" 
+                          fill="#ff1493" stroke="#c71585" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <!-- Message (hidden until clicked) -->
+            <div class="message-display hidden" id="messageDisplay">
+                <div class="message-content">
+                    <h2>To My Dearest Belle</h2>
+                    <p>From the moment I met you, my world became brighter. Your smile lights up even my darkest days.</p>
+                    <p>Every moment with you feels like a beautiful dream. You inspire me to be better every single day.</p>
+                    <p>This Valentine's Day, I want you to know that you mean everything to me. You're my best friend and the person I want to share all of life's adventures with.</p>
+                    <p>Thank you for being you, Belle. Thank you for saying yes!</p>
+                    <div class="signature">Forever yours</div>
+                    <button class="next-memory-btn" id="nextMemoryBtn">View Our Memories 💕</button>
+                </div>
+            </div>
+
+            <p class="hint-text" id="hintText">Click the envelope to read the message 💕</p>
+        </div>
+    </div>
+
+    <!-- Memories Slideshow -->
+    <div class="memories-screen hidden" id="memoriesScreen">
+        <h1 style="color: #ff1493; font-size: 2em;">Our Beautiful Memories 💕</h1>
+        
+        <div class="slideshow-container">
+            <div class="slide fade">
+                <img src="memory1.jpg" alt="Memory 1">
+                <p class="slide-caption">Our first moment together ✨</p>
+            </div>
+
+            <div class="slide fade">
+                <img src="memory2.png" alt="Memory 2">
+                <p class="slide-caption">Gaming together 🎮</p>
+            </div>
+
+            <div class="slide fade">
+                <img src="memory3.jpg" alt="Memory 3">
+                <p class="slide-caption">Holding hands 💫</p>
+            </div>
+
+            <div class="slide fade">
+                <img src="memory4.png" alt="Memory 4">
+                <p class="slide-caption">Us together 💑</p>
+            </div>
+
+            <!-- Navigation arrows -->
+            <a class="prev" onclick="changeSlide(-1)">❮</a>
+            <a class="next" onclick="changeSlide(1)">❯</a>
+        </div>
+
+        <!-- Slide indicators -->
+        <div class="slide-indicators">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+        </div>
+
+        <p class="memories-hint">Click arrows or dots to navigate 💕</p>
+    </div>
+
+    <div class="popup-overlay hidden" id="questionPopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">💭</div>
+            <h2>I have a question for you.</h2>
+            <button class="proceed-btn" id="closeQuestionPopup">Continue</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="readyPopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">✨</div>
+            <h2>But before we proceed to the question</h2>
+            <p>Are you ready?</p>
+            <button class="proceed-btn" id="readyBtn">Yes</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="really1PopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">🤔</div>
+            <h2>Really?</h2>
+            <button class="proceed-btn" id="really1Btn">Yes</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="really2PopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">😏</div>
+            <h2>Are you sure?</h2>
+            <button class="proceed-btn" id="really2Btn">Yes</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="really3PopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">👀</div>
+            <h2>Like, REALLY ready?</h2>
+            <button class="proceed-btn" id="really3Btn">Yes</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="really4PopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">😁</div>
+            <h2>For real for real?</h2>
+            <button class="proceed-btn" id="really4Btn">Yes</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="really5PopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">💕</div>
+            <h2>Okay, here we go...</h2>
+            <button class="proceed-btn" id="really5Btn">Let's do this!</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="popupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">💕</div>
+            <h2>I knew you would say yes!</h2>
+            <p>You can't resist this, baby!</p>
+            <button class="proceed-btn" id="proceedButton">Proceed</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="noPopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">💔</div>
+            <h2 id="noPopupText">Are you sure about that?</h2>
+            <button class="proceed-btn" id="closeNoPopup">Okay, I'll think about it</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="escapePopupOverlay">
+        <div class="popup-card">
+            <div class="popup-image">💕</div>
+            <h2>You can't escape my love!</h2>
+            <p>Only YES button left to make me happy 💕</p>
+            <button class="proceed-btn" id="closeEscapePopup">I'm ready ❤️</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let noClickCount = 0;
+    let envelopeOpened = false;
+    
+    const openingScreen = document.getElementById('openingScreen');
+    const questionScreen = document.getElementById('questionScreen');
+    const successScreen = document.getElementById('successScreen');
+    const yesBtn = document.getElementById('yesButton');
+    const noBtn = document.getElementById('noButton');
+    const attemptCounter = document.getElementById('attemptCounter');
+    const envelope = document.getElementById('envelope');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const proceedButton = document.getElementById('proceedButton');
+    const noPopupOverlay = document.getElementById('noPopupOverlay');
+    const closeNoPopup = document.getElementById('closeNoPopup');
+    const noPopupText = document.getElementById('noPopupText');
+    const escapePopupOverlay = document.getElementById('escapePopupOverlay');
+    const closeEscapePopup = document.getElementById('closeEscapePopup');
+
+    const openingEnvelope = document.getElementById('openingScreen');
+    const musicScreen = document.getElementById('musicScreen');
+    const musicNextBtn = document.getElementById('musicNextBtn');
+    
+    let shakeCount = 0;
+    let lastShakeTime = 0;
+    
+    // Detect device shake
+    let accelerationThreshold = 15;
+    
+    if (window.DeviceMotionEvent) {
+        window.addEventListener('devicemotion', function(event) {
+            const acceleration = event.acceleration;
+            if (!acceleration) return;
+            
+            const totalAccel = Math.abs(acceleration.x) + Math.abs(acceleration.y) + Math.abs(acceleration.z);
+            
+            if (totalAccel > accelerationThreshold) {
+                const currentTime = new Date().getTime();
+                if (currentTime - lastShakeTime > 200) {
+                    shakeCount++;
+                    lastShakeTime = currentTime;
+                    openingEnvelope.classList.add('shake');
+                    setTimeout(() => {
+                        openingEnvelope.classList.remove('shake');
+                    }, 500);
+                    
+                    if (shakeCount >= 3) {
+                        openingEnvelope.style.display = 'none';
+                        document.querySelector('.opening-text').style.display = 'none';
+                        document.querySelector('.tap-hint').style.display = 'none';
+                        musicScreen.classList.add('active');
+                        shakeCount = 0;
+                    }
+                }
+            }
+        });
+    }
+    
+    // Also allow click to open (fallback for non-shake devices)
+    openingEnvelope.addEventListener('click', function() {
+        openingEnvelope.classList.add('shake');
+        setTimeout(() => {
+            openingEnvelope.classList.remove('shake');
+            shakeCount = 0;
+        }, 500);
+        
+        shakeCount++;
+        if (shakeCount >= 1) {
+            openingEnvelope.style.display = 'none';
+            document.querySelector('.opening-text').style.display = 'none';
+            document.querySelector('.tap-hint').style.display = 'none';
+            document.getElementById('introPopupOverlay').classList.remove('hidden');
+            shakeCount = 0;
+        }
+    });
+
+    // Intro button
+    const introBtn = document.getElementById('introBtn');
+    introBtn.addEventListener('click', function() {
+        document.getElementById('introPopupOverlay').classList.add('hidden');
+        document.getElementById('quizPopupOverlay').classList.remove('hidden');
+    });
+
+    // Quiz function
+    function checkQuizAnswer(answer, isCorrect) {
+        const resultEl = document.getElementById('quizResult');
+        const quizBtns = document.querySelectorAll('.quiz-btn');
+        
+        // Disable all buttons
+        quizBtns.forEach(btn => btn.disabled = true);
+        
+        if (isCorrect) {
+            resultEl.textContent = 'Correct! That\'s my song! 💕';
+            resultEl.classList.remove('hidden', 'wrong');
+            resultEl.classList.add('correct');
+            
+            setTimeout(() => {
+                document.getElementById('quizPopupOverlay').classList.add('hidden');
+                musicScreen.classList.add('active');
+            }, 1500);
+        } else {
+            const wrongMessages = [
+                'U really don\'t know me, pick the right one 💔',
+                'Nope! That\'s not it babe 💭',
+                'Wrong answer! Try again 💕',
+                'Hmm... that\'s not the one 🤔',
+                'Close but not quite! 😔'
+            ];
+            const randomMessage = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
+            resultEl.textContent = randomMessage;
+            resultEl.classList.remove('hidden', 'correct');
+            resultEl.classList.add('wrong');
+            
+            setTimeout(() => {
+                quizBtns.forEach(btn => btn.disabled = false);
+                resultEl.classList.add('hidden');
+            }, 2000);
+        }
+    }
+
+    musicNextBtn.addEventListener('click', function() {
+        musicScreen.classList.add('fadeOut');
+        setTimeout(() => {
+            musicScreen.classList.remove('active');
+            musicScreen.classList.remove('fadeOut');
+            questionPopupOverlay.classList.remove('hidden');
+        }, 200);
+    });
+
+    const questionPopupOverlay = document.getElementById('questionPopupOverlay');
+    const closeQuestionPopup = document.getElementById('closeQuestionPopup');
+    const readyPopupOverlay = document.getElementById('readyPopupOverlay');
+    const readyBtn = document.getElementById('readyBtn');
+    const really1PopupOverlay = document.getElementById('really1PopupOverlay');
+    const really1Btn = document.getElementById('really1Btn');
+    const really2PopupOverlay = document.getElementById('really2PopupOverlay');
+    const really2Btn = document.getElementById('really2Btn');
+    const really3PopupOverlay = document.getElementById('really3PopupOverlay');
+    const really3Btn = document.getElementById('really3Btn');
+    const really4PopupOverlay = document.getElementById('really4PopupOverlay');
+    const really4Btn = document.getElementById('really4Btn');
+    const really5PopupOverlay = document.getElementById('really5PopupOverlay');
+    const really5Btn = document.getElementById('really5Btn');
+
+    closeQuestionPopup.addEventListener('click', function() {
+        questionPopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            questionPopupOverlay.classList.add('hidden');
+            readyPopupOverlay.classList.remove('hidden');
+            readyPopupOverlay.style.opacity = '1';
+        }, 150);
+    });
+
+    readyBtn.addEventListener('click', function() {
+        readyPopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            readyPopupOverlay.classList.add('hidden');
+            really1PopupOverlay.classList.remove('hidden');
+            really1PopupOverlay.style.opacity = '1';
+        }, 150);
+    });
+
+    really1Btn.addEventListener('click', function() {
+        really1PopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            really1PopupOverlay.classList.add('hidden');
+            really2PopupOverlay.classList.remove('hidden');
+            really2PopupOverlay.style.opacity = '1';
+        }, 150);
+    });
+
+    really2Btn.addEventListener('click', function() {
+        really2PopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            really2PopupOverlay.classList.add('hidden');
+            really3PopupOverlay.classList.remove('hidden');
+            really3PopupOverlay.style.opacity = '1';
+        }, 150);
+    });
+
+    really3Btn.addEventListener('click', function() {
+        really3PopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            really3PopupOverlay.classList.add('hidden');
+            really4PopupOverlay.classList.remove('hidden');
+            really4PopupOverlay.style.opacity = '1';
+        }, 150);
+    });
+
+    really4Btn.addEventListener('click', function() {
+        really4PopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            really4PopupOverlay.classList.add('hidden');
+            really5PopupOverlay.classList.remove('hidden');
+            really5PopupOverlay.style.opacity = '1';
+        }, 150);
+    });
+
+    really5Btn.addEventListener('click', function() {
+        really5PopupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            really5PopupOverlay.classList.add('hidden');
+            questionScreen.classList.add('active');
+            updateAttemptCounter();
+        }, 150);
+    });
+
+    // Audio player controls
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const progressBar = document.getElementById('progressBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+
+    playBtn.addEventListener('click', function() {
+        audioPlayer.play();
+    });
+
+    pauseBtn.addEventListener('click', function() {
+        audioPlayer.pause();
+    });
+
+    audioPlayer.addEventListener('timeupdate', function() {
+        progressBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+    });
+
+    audioPlayer.addEventListener('loadedmetadata', function() {
+        durationEl.textContent = formatTime(audioPlayer.duration);
+        progressBar.max = audioPlayer.duration;
+    });
+
+    progressBar.addEventListener('change', function() {
+        audioPlayer.currentTime = (progressBar.value / 100) * audioPlayer.duration;
+    });
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        let mins = Math.floor(seconds / 60);
+        let secs = Math.floor(seconds % 60);
+        return mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }
+
+    // Slideshow functions
+    let currentSlideIndex = 1;
+    const memoriesScreen = document.getElementById('memoriesScreen');
+    const nextMemoryBtn = document.getElementById('nextMemoryBtn');
+
+    function changeSlide(n) {
+        showSlide(currentSlideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlide(currentSlideIndex = n);
+    }
+
+    function showSlide(n) {
+        const slides = document.getElementsByClassName('slide');
+        const dots = document.getElementsByClassName('dot');
+
+        if (n > slides.length) { currentSlideIndex = 1; }
+        if (n < 1) { currentSlideIndex = slides.length; }
+
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove('active');
+        }
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.remove('active');
+        }
+
+        slides[currentSlideIndex - 1].classList.add('active');
+        dots[currentSlideIndex - 1].classList.add('active');
+    }
+
+    nextMemoryBtn.addEventListener('click', function() {
+        document.getElementById('messageDisplay').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('messageDisplay').classList.add('hidden');
+            memoriesScreen.classList.add('active');
+            showSlide(currentSlideIndex);
+        }, 150);
+    });
+
+    yesBtn.addEventListener('click', function() {
+        createConfetti();
+        popupOverlay.classList.remove('hidden');
+    });
+
+    noBtn.addEventListener('click', function() {
+        noClickCount++;
+        updateAttemptCounter();
+        
+        const messages = [
+            "Are you sure about that? 💔",
+            "Really??? My heart is breaking 💔",
+            "Why no to love? 🥺",
+            "Last chance to say yes to forever 💕",
+            "I'm begging you, don't break my heart 🙏",
+            "Please babyy, I love you so much 💕",
+            "You don't want me anymore? 😢",
+            "Final answer baby, this is it 💔",
+            "Just click yes and make me the happiest 💕"
+        ];
+
+        if (noClickCount === 9) {
+            showEscapePopup();
+            noBtn.style.display = 'none';
+            return;
+        }
+
+        if (noClickCount < 9) {
+            showNoPopup(messages[noClickCount - 1]);
+        }
+
+        const moveX = (Math.random() - 0.5) * 150;
+        const moveY = (Math.random() - 0.5) * 120;
+        const scale = 1 - (noClickCount * 0.09);
+        
+        noBtn.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
+    });
+
+    proceedButton.addEventListener('click', function() {
+        popupOverlay.style.opacity = '0';
+        setTimeout(() => {
+            popupOverlay.classList.add('hidden');
+            questionScreen.classList.remove('active');
+            questionScreen.style.opacity = '0';
+            setTimeout(() => {
+                questionScreen.style.display = 'none';
+                successScreen.classList.add('active');
+                createConfetti();
+            }, 200);
+        }, 150);
+    });
+
+    envelope.addEventListener('click', function() {
+        if (!envelopeOpened) {
+            envelopeOpened = true;
+            document.querySelector('.sealed-envelope').classList.add('hidden');
+            document.getElementById('messageDisplay').classList.remove('hidden');
+            document.getElementById('hintText').textContent = 'She said yes! 💕';
+        }
+    });
+
+    const letterContent = document.getElementById('letterContent');
+
+    function updateAttemptCounter() {
+        if (noClickCount > 0) {
+            attemptCounter.textContent = `Attempts: ${noClickCount}`;
+        }
+    }
+
+    function showNoPopup(message) {
+        noPopupText.textContent = message;
+        noPopupOverlay.classList.remove('hidden');
+    }
+
+    function showEscapePopup() {
+        escapePopupOverlay.classList.remove('hidden');
+    }
+
+    closeNoPopup.addEventListener('click', function() {
+        noPopupOverlay.classList.add('hidden');
+    });
+
+    closeEscapePopup.addEventListener('click', function() {
+        escapePopupOverlay.classList.add('hidden');
+    });
+
+    function createConfetti() {
+        const shapes = ['💕', '💖', '💗', '❤️', '✨'];
+        const confettiCount = 100;
+        
+        for (let i = 0; i < confettiCount; i++) {
+            setTimeout(function() {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-30px';
+                confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                confetti.style.fontSize = '20px';
+                confetti.style.animation = `confettiFall ${Math.random() * 2 + 2.5}s linear`;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(function() {
+                    confetti.remove();
+                }, 4500);
+            }, i * 20);
+        }
+    }
+</script>
+```
+
+</body>
+</html>
